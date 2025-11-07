@@ -6,6 +6,9 @@ import {
   Token,
 } from '@uniswap/sdk-core';
 
+// MegaETH Testnet chain ID (not in @uniswap/sdk-core yet)
+export const MEGAETH_TESTNET_CHAIN_ID = 6342 as ChainId;
+
 // WIP: Gnosis, Moonbeam
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
@@ -33,6 +36,7 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MONAD,
   ChainId.BASE_SEPOLIA,
   ChainId.SONEIUM,
+  MEGAETH_TESTNET_CHAIN_ID,
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -176,6 +180,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.UNICHAIN;
     case 1868:
       return ChainId.SONEIUM;
+    case 6342:
+      return MEGAETH_TESTNET_CHAIN_ID;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -211,6 +217,7 @@ export enum ChainName {
   MONAD_TESTNET = 'monad-testnet',
   SONEIUM = 'soneium-mainnet',
   MONAD = 'monad-mainnet',
+  MEGAETH_TESTNET = 'megaeth-testnet',
 }
 
 export enum NativeCurrencyName {
@@ -341,6 +348,11 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
+  [MEGAETH_TESTNET_CHAIN_ID]: [
+    'ETH',
+    'ETHER',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  ],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -372,6 +384,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.BASE_SEPOLIA]: NativeCurrencyName.ETHER,
   [ChainId.UNICHAIN]: NativeCurrencyName.ETHER,
   [ChainId.SONEIUM]: NativeCurrencyName.ETHER,
+  [MEGAETH_TESTNET_CHAIN_ID]: NativeCurrencyName.ETHER,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -434,6 +447,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.MONAD;
     case 1868:
       return ChainName.SONEIUM;
+    case 6342:
+      return ChainName.MEGAETH_TESTNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -497,6 +512,8 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_UNICHAIN!;
     case ChainId.SONEIUM:
       return process.env.JSON_RPC_PROVIDER_SONEIUM!;
+    case MEGAETH_TESTNET_CHAIN_ID:
+      return process.env.JSON_RPC_PROVIDER_MEGAETH_TESTNET!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -722,7 +739,14 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     'WETH',
     'Wrapped Ether'
   ),
-};
+  [MEGAETH_TESTNET_CHAIN_ID]: new Token(
+    MEGAETH_TESTNET_CHAIN_ID,
+    '0xd57083cF8A0d9ebBaBc295CC91AaF1E36D244096',
+    18,
+    'MWETH',
+    'Wrapped MegaETH'
+  ),
+} as { [chainId in ChainId]: Token } & Record<number, Token>;
 
 function isMatic(
   chainId: number

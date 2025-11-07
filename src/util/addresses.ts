@@ -9,7 +9,7 @@ import {
 } from '@uniswap/sdk-core';
 import { FACTORY_ADDRESS } from '@uniswap/v3-sdk';
 
-import { NETWORKS_WITH_SAME_UNISWAP_ADDRESSES } from './chains';
+import { MEGAETH_TESTNET_CHAIN_ID, NETWORKS_WITH_SAME_UNISWAP_ADDRESSES } from './chains';
 
 export const BNB_TICK_LENS_ADDRESS =
   CHAIN_TO_ADDRESSES_MAP[ChainId.BNB].tickLensAddress;
@@ -58,6 +58,7 @@ export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
     CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].v3CoreFactoryAddress,
   [ChainId.SONEIUM]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].v3CoreFactoryAddress,
+  [MEGAETH_TESTNET_CHAIN_ID]: '0xa083Dd689d1B67B297C486b5f43bAcf5f45ae6B8',
 };
 
 export const QUOTER_V2_ADDRESSES: AddressMap = {
@@ -94,6 +95,7 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
   // TODO: Gnosis + Moonbeam contracts to be deployed
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].quoterAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].quoterAddress,
+  [MEGAETH_TESTNET_CHAIN_ID]: '0x5B0B1f1121dD047d0BCC515c202a56925Ba7bE74',
 };
 
 export const NEW_QUOTER_V2_ADDRESSES: AddressMap = {
@@ -213,9 +215,14 @@ export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
   // TODO: Gnosis + Moonbeam contracts to be deployed
   [ChainId.UNICHAIN]: CHAIN_TO_ADDRESSES_MAP[ChainId.UNICHAIN].multicallAddress,
   [ChainId.SONEIUM]: CHAIN_TO_ADDRESSES_MAP[ChainId.SONEIUM].multicallAddress,
+  [MEGAETH_TESTNET_CHAIN_ID]: '0x0248e024d123e4eE929b6E4225432Ff10C6d74A9',
 };
 
 export const SWAP_ROUTER_02_ADDRESSES = (chainId: number): string => {
+  // Handle MegaETH testnet specially since it's not in @uniswap/sdk-core
+  if (chainId === MEGAETH_TESTNET_CHAIN_ID) {
+    return '0xF6423E954C8f43BCbAC91AF03AaA73acbD215FDF';
+  }
   return (
     SWAP_ROUTER_02_ADDRESSES_HELPER(chainId) ??
     '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45'

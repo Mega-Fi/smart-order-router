@@ -1,6 +1,7 @@
 import { Protocol } from '@uniswap/router-sdk';
 import { ChainId, Token } from '@uniswap/sdk-core';
 
+import { MEGAETH_TESTNET_CHAIN_ID } from '../../util/chains';
 import { ProviderConfig } from '../provider';
 import { SubgraphProvider } from '../subgraph-provider';
 
@@ -35,7 +36,7 @@ export type V3RawSubgraphPool = {
   totalValueLockedUSDUntracked: string;
 };
 
-const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
+const SUBGRAPH_URL_BY_CHAIN: { [chainId: number]: string | undefined } = {
   [ChainId.MAINNET]:
     'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
   [ChainId.OPTIMISM]:
@@ -60,6 +61,8 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
     'https://api.studio.thegraph.com/query/48211/uniswap-v3-base/version/latest',
   [ChainId.BLAST]:
     'https://gateway-arbitrum.network.thegraph.com/api/0ae45f0bf40ae2e73119b44ccd755967/subgraphs/id/2LHovKznvo8YmKC9ZprPjsYAZDCc4K5q4AYz8s3cnQn1',
+  [MEGAETH_TESTNET_CHAIN_ID]:
+    'https://api.studio.thegraph.com/query/1714774/megafi-superapp-testnet/version/latest',
 };
 
 /**
